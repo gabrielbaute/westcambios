@@ -112,6 +112,26 @@ class UserController(BaseController):
         except Exception as e:
             self.logger.error(f"Error retrieving users with role {user_role}: {e}")
             return None
+        
+    def get_all_users(self) -> Optional[UserListResponse]:
+        """
+        Retrieves a list of all users from the database.
+
+        Returns:
+            UserListResponse: List of all users.
+        """
+        try:
+            users = self.session.query(UsersDatabaseModel).all()
+            if users:
+                list_response = UserListResponse(
+                    count=len(users),
+                    users=[UserResponse.model_validate(user) for user in users]
+                )
+                self.logger.info(f"Successfully retrieved all users: {list_response.count} users found.")
+                return list_response
+        except Exception as e:
+            self.logger.error(f"Error retrieving all users: {e}")
+            return None
     
     def update_user(self, user_id: int, user: UserUpdate) -> Optional[UserResponse]:
         """
