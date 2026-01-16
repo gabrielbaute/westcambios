@@ -17,8 +17,8 @@ class Config:
     STATIC_PATH: Path = APP_PATH / "static"
 
     # Database
-    SQL_URL: str = f"sqlite:///{os.path.join(INSTANCE_PATH, 'westcambios.db')}"
-    DATABASE_CONNECT_ARGS = {"check_same_thread": False}
+    DATABASE_URL: str = f"sqlite:///{os.path.join(INSTANCE_PATH, 'westcambios.db')}"
+    DATABASE_CONNECT_ARGS: dict = {"check_same_thread": False}
 
     # API
     API_HOST: str = "0.0.0.0"
