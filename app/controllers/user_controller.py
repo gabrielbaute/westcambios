@@ -8,6 +8,7 @@ from typing import Optional
 from app.schemas import UserCreate, UserResponse, UserUpdate, UserListResponse
 from app.controllers.base_controller import BaseController
 from app.database.models import UsersDatabaseModel
+from app.enums import UserRole
 
 class UserController(BaseController):
     """
@@ -88,6 +89,29 @@ class UserController(BaseController):
         except Exception as e:
             self.logger.error(f"Error retrieving users within time range: {e}")
             return UserListResponse(count=0, users=[])
+    
+    def get_user_by_role(self, user_role: UserRole) -> Optional[UserListResponse]:
+        """
+        Retrieves a list of users with a specific role from the database.
+
+        Args:
+            user_role(UserRole): Role of the users to be retrieved.
+
+        Returns:
+            UserListResponse: List of users with the specified role.
+        """
+        try:
+            users_response = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.role == user_role).all()
+            if users_response:
+                list_response = UserListResponse(
+                    count=len(users_response), 
+                    users=[UserResponse.model_validate(user) for user in users_response]
+                    )
+                self.logger.info(f"Successfully retrieved users with role {user_role}: {list_response.count} users found.")
+                return list_response
+        except Exception as e:
+            self.logger.error(f"Error retrieving users with role {user_role}: {e}")
+            return None
     
     def update_user(self, user_id: int, user: UserUpdate) -> Optional[UserResponse]:
         """
