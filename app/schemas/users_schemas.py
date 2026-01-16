@@ -50,6 +50,7 @@ class UserCreate(BaseModel):
     Attributes:
         email: Email address of the user.
         username: Username of the user.
+        password_hash: Hashed password of the user.
         is_active: Flag indicating if the user is active.
         rol: Role of the user.
         created_at: Timestamp of the user creation.
@@ -57,7 +58,7 @@ class UserCreate(BaseModel):
     """
     email: EmailStr
     username: str
-    password: str
+    password_hash: str
     is_active: Optional[bool] = True
     rol: UserRole = UserRole.CLIENT
     created_at: Optional[datetime] = None
@@ -71,7 +72,7 @@ class UserCreate(BaseModel):
                 {
                     "email": "user@example.com",
                     "username": "user",
-                    "password": "password",
+                    "password_hash": "password_hash",
                     "is_active": True,
                     "rol": "CLIENT",
                     "created_at": "2023-10-01T12:00:00Z",
@@ -113,7 +114,7 @@ class UserLogin(BaseModel):
     
     Atributes:
         email: Email address of the user.
-        password: Password of the user.
+        password_hash: Password of the user.
     """
     email: EmailStr
-    password: str
+    password_hash: str
