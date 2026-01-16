@@ -13,7 +13,7 @@ class UserResponse(BaseModel):
         email: Email address of the user.
         username: Username of the user.
         is_active: Flag indicating if the user is active.
-        rol: Role of the user.
+        role: Role of the user.
         created_at: Timestamp of the user creation.
         updated_at: Timestamp of the user update.
     """
@@ -21,7 +21,7 @@ class UserResponse(BaseModel):
     email: EmailStr
     username: str
     is_active: bool
-    rol: UserRole
+    role: UserRole
     created_at: datetime
     updated_at: Optional[datetime] = None
 
@@ -52,7 +52,7 @@ class UserCreate(BaseModel):
         username: Username of the user.
         password_hash: Hashed password of the user.
         is_active: Flag indicating if the user is active.
-        rol: Role of the user.
+        role: Role of the user.
         created_at: Timestamp of the user creation.
         updated_at: Timestamp of the user update.
     """
@@ -60,7 +60,7 @@ class UserCreate(BaseModel):
     username: str
     password_hash: str
     is_active: Optional[bool] = True
-    rol: UserRole = UserRole.CLIENT
+    role: UserRole = UserRole.CLIENT
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -74,7 +74,7 @@ class UserCreate(BaseModel):
                     "username": "user",
                     "password_hash": "password_hash",
                     "is_active": True,
-                    "rol": "CLIENT",
+                    "role": "CLIENT",
                     "created_at": "2023-10-01T12:00:00Z",
                     "updated_at": "2023-10-10T12:00:00Z"
                 }
@@ -86,9 +86,9 @@ class UserUpdate(BaseModel):
     """Schema for updating user information."""
     email: Optional[EmailStr] = None
     username: Optional[str] = None
-    password: Optional[str] = None
+    password_hash: Optional[str] = None
     is_active: Optional[bool] = None
-    rol: Optional[UserRole] = None
+    role: Optional[UserRole] = None
     updated_at: Optional[datetime] = None
 
     model_config = ConfigDict(
@@ -99,9 +99,9 @@ class UserUpdate(BaseModel):
                 {
                     "email": "user@example.com",
                     "username": "new_user",
-                    "password": "new_password",
+                    "password_hash": "new_password_hash",
                     "is_active": True,
-                    "rol": "ADMIN",
+                    "role": "ADMIN",
                     "updated_at": "2023-10-10T12:00:00Z"
                 }
             ]
@@ -132,7 +132,7 @@ class UserListResponse(BaseModel):
                             "email": "user@example.com",
                             "username": "user",
                             "is_active": True,
-                            "rol": "CLIENT",
+                            "role": "CLIENT",
                             "created_at": "2023-10-01T12:00:00Z",
                             "updated_at": "2023-10-10T12:00:00Z"
                         },
@@ -141,7 +141,7 @@ class UserListResponse(BaseModel):
                             "email": "admin@example.com",
                             "username": "admin",
                             "is_active": True,
-                            "rol": "ADMIN",
+                            "role": "ADMIN",
                             "created_at": "2023-10-01T12:00:00Z",
                             "updated_at": "2023-10-10T12:00:00Z"
                         }
