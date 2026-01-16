@@ -108,7 +108,7 @@ class UserUpdate(BaseModel):
         }
     )
 
-class UserList(BaseModel):
+class UserListResponse(BaseModel):
     """
     Schema for reading a list of users.
 
