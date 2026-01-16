@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel, ConfigDict, EmailStr
 from datetime import datetime
 
@@ -103,6 +103,49 @@ class UserUpdate(BaseModel):
                     "is_active": True,
                     "rol": "ADMIN",
                     "updated_at": "2023-10-10T12:00:00Z"
+                }
+            ]
+        }
+    )
+
+class UserList(BaseModel):
+    """
+    Schema for reading a list of users.
+
+    Attributes:
+        count: Total number of users.
+        users: List of user responses.
+    """
+    count: int
+    users: List[Optional[UserResponse]] = []
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        use_enum_values=True,
+        json_schema_extra={
+            "examples": [
+                {
+                    "count": 2,
+                    "users": [
+                        {
+                            "id": 1,
+                            "email": "user@example.com",
+                            "username": "user",
+                            "is_active": True,
+                            "rol": "CLIENT",
+                            "created_at": "2023-10-01T12:00:00Z",
+                            "updated_at": "2023-10-10T12:00:00Z"
+                        },
+                        {
+                            "id": 2,
+                            "email": "admin@example.com",
+                            "username": "admin",
+                            "is_active": True,
+                            "rol": "ADMIN",
+                            "created_at": "2023-10-01T12:00:00Z",
+                            "updated_at": "2023-10-10T12:00:00Z"
+                        }
+                    ]
                 }
             ]
         }
