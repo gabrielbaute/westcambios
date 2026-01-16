@@ -2,7 +2,7 @@
 Base methods and class for controllers
 """
 import logging
-from typing import Any
+from typing import Any, Optional, Type
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -79,6 +79,30 @@ class BaseController:
             self.logger.error(f"SQLAlchemy Error during deletion: {e}")
             return False
 
+    def _get_item_by_id(self, model: Type[Any], item_id: int) -> Optional[Any]:
+        """
+        Retrieves an item by its ID from the database using the Identity Map.
+
+        Args:
+            model (Type[Any]): The SQLAlchemy model class to query.
+            item_id (int): The primary key ID of the item.
+
+        Returns:
+            Optional[Any]: The retrieved model instance or None if not found/error.
+        """
+        try:
+            # session.get es la forma preferida para búsquedas por PK en SQLAlchemy 2.0
+            item = self.session.get(model, item_id)
+            if item:
+                self.logger.info(f"Successfully retrieved {model.__tablename__} ID: {item_id}")
+                return item
+            
+            self.logger.warning(f"{model.__tablename__} with ID {item_id} not found.")
+            return None
+        except SQLAlchemyError as e:
+            self.logger.error(f"SQLAlchemy Error during retrieval of {model.__tablename__}: {e}")
+            return None
+    
     def close_session(self) -> None:
         """
         Manually closes the database session. 

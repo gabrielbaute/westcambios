@@ -52,7 +52,7 @@ class UserController(BaseController):
             Optional[UserResponse]: User record retrieved.
         """
         try:
-            user = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.id == user_id).first()
+            user = self._get_item_by_id(UsersDatabaseModel, user_id)
             if user:
                 self.logger.info(f"Successfully retrieved user record: {user}")
                 return UserResponse.model_validate(user)
@@ -125,7 +125,7 @@ class UserController(BaseController):
             Optional[UserResponse]: Updated user record.
         """
         try:
-            user_record = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.id == user_id).first()
+            user_record = self._get_item_by_id(UsersDatabaseModel, user_id)
             if user_record:
                 for key, value in user.model_dump(exclude_unset=True).items():
                     setattr(user_record, key, value)
@@ -148,7 +148,7 @@ class UserController(BaseController):
             bool: True if the deletion was successful, False otherwise.
         """
         try:
-            user = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.id == user_id).first()
+            user = self._get_item_by_id(UsersDatabaseModel, user_id)
             if user:
                 self._delete_or_rollback(user)
                 self.logger.info(f"Successfully deleted user record: {user}")

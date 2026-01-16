@@ -51,7 +51,7 @@ class RateController(BaseController):
             Optional[RateResponse]: Rate record retrieved.
         """
         try:
-            rate = self.session.query(RatesDatabaseModel).filter(RatesDatabaseModel.id == rate_id).first()
+            rate = self._get_item_by_id(RatesDatabaseModel, rate_id)
             if rate:
                 self.logger.info(f"Successfully retrieved rate record: {rate}")
                 return RateResponse.model_validate(rate)
@@ -89,6 +89,25 @@ class RateController(BaseController):
             self.logger.error(f"Error retrieving rates within time range: {e}")
             return RateListResponse(count=0, rates=[])
 
+    def get_all_rates(self) -> Optional[RateListResponse]:
+        """
+        Retrieves a list of all rates from the database.
+
+        Returns:
+            RateListResponse: List of all rates.
+        """
+        try:
+            rates = self.session.query(RatesDatabaseModel).all()
+            if rates:
+                list_response = RateListResponse(
+                    count=len(rates), 
+                    rates=[RateResponse.model_validate(rate) for rate in rates]
+                    )
+                self.logger.info(f"Successfully retrieved all rates: {list_response.count} records found.")
+                return list_response
+        except Exception as e:
+            self.logger.error(f"Error retrieving all rates: {e}")
+            return None
 
     def update_rate_record(self, rate_id: int, rate: RateUpdate) -> Optional[RateResponse]:
         """
@@ -102,7 +121,7 @@ class RateController(BaseController):
             Optional[RateResponse]: Updated rate record.
         """
         try:
-            rate_record = self.session.query(RatesDatabaseModel).filter(RatesDatabaseModel.id == rate_id).first()
+            rate_record = self._get_item_by_id(RatesDatabaseModel, rate_id)
             if rate_record:
                 for key, value in rate.model_dump(exclude_unset=True).items():
                     setattr(rate_record, key, value)
@@ -125,7 +144,7 @@ class RateController(BaseController):
             bool: True if the deletion was successful, False otherwise.
         """
         try:
-            rate_record = self.session.query(RatesDatabaseModel).filter(RatesDatabaseModel.id == rate_id).first()
+            rate_record = self._get_item_by_id(RatesDatabaseModel, rate_id)
             if rate_record:
                 self._delete_or_rollback(rate_record)
                 self.logger.info(f"Successfully deleted rate record: {rate_record}")
