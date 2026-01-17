@@ -20,6 +20,7 @@ class UserResponse(BaseModel):
     id: int
     email: EmailStr
     username: str
+    password_hash: str
     is_active: bool
     role: UserRole
     created_at: datetime
@@ -34,6 +35,7 @@ class UserResponse(BaseModel):
                     "id": 1,
                     "email": "user@example.com",
                     "username": "user",
+                    "password_hash": "password_hash",
                     "is_active": True,
                     "rol": "CLIENT",
                     "created_at": "2023-10-01T12:00:00Z",
@@ -131,6 +133,7 @@ class UserListResponse(BaseModel):
                             "id": 1,
                             "email": "user@example.com",
                             "username": "user",
+                            "password_hash": "password_hash",
                             "is_active": True,
                             "role": "CLIENT",
                             "created_at": "2023-10-01T12:00:00Z",
@@ -140,6 +143,7 @@ class UserListResponse(BaseModel):
                             "id": 2,
                             "email": "admin@example.com",
                             "username": "admin",
+                            "password_hash": "password_hash",
                             "is_active": True,
                             "role": "ADMIN",
                             "created_at": "2023-10-01T12:00:00Z",
@@ -157,7 +161,7 @@ class UserLogin(BaseModel):
     
     Atributes:
         email: Email address of the user.
-        password_hash: Password of the user.
+        password: Password of the user.
     """
     email: EmailStr
-    password_hash: str
+    password: str
