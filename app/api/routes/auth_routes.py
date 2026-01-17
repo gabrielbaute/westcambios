@@ -6,7 +6,7 @@ from app.services.security_service import SecurityService
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/login", response_model=Token)
-def login(login_data: UserLogin):
+def login_for_access_token(login_data: UserLogin):
     """
     Authenticate user and return a JWT token.
     """
@@ -20,12 +20,10 @@ def login(login_data: UserLogin):
                 headers={"WWW-Authenticate": "Bearer"},
             )
         
-        # Generar el token (usando el email como 'sub' o el username)
         access_token = SecurityService.create_access_token(
             data={"sub": user.email}
         )
         
         return Token(access_token=access_token, token_type="bearer")
     finally:
-        # Importante: Como no usamos DI, debemos asegurar el cierre de la sesión
         user_service.controller.close_session()
