@@ -5,7 +5,7 @@ import logging
 from typing import Optional
 from datetime import date, datetime, timedelta
 
-from app.schemas import UserCreate, UserResponse, UserUpdate, UserListResponse
+from app.schemas import UserCreate, UserResponse, UserUpdate, UserListResponse, UserLogin
 from app.services.security_service import SecurityService
 from app.controllers import UserController
 from app.enums import UserRole
@@ -96,6 +96,25 @@ class UserService:
         """
         self.logger.debug(f"Retrieving users with role: {user_role}")
         return self.controller.get_user_by_role(user_role)    
+
+    def authenticate_user(self, login_data: UserLogin) -> Optional[UserResponse]:
+            """
+            Authenticates a user by email and password.
+            
+            Args:
+                login_data (UserLogin): The login credentials.
+                
+            Returns:
+                Optional[UserResponse]: The user record if authenticated, None otherwise.
+            """
+            user = self.controller.get_user_by_email(login_data.email)
+            if not user:
+                return None
+                
+            if not SecurityService.verify_password(login_data.password, user.password_hash):
+                return None
+                
+            return user
 
     def get_all_users(self) -> Optional[UserListResponse]:
         """
