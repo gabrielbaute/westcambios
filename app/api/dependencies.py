@@ -39,7 +39,12 @@ def get_current_admin(current_user: UserResponse = Depends(get_current_user)) ->
     """
     Dependency to ensure the current user has the ADMIN role.
     """
-    if current_user.role != UserRole.ADMIN:
+    user_role_map: dict[str, UserRole] = {
+        "ADMIN": UserRole.ADMIN,
+        "CLIENT": UserRole.CLIENT
+        }
+    role = user_role_map.get(current_user.role)
+    if role != UserRole.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="The user does not have enough privileges",
