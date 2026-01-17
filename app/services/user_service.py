@@ -114,7 +114,7 @@ class UserService:
             if not SecurityService.verify_password(login_data.password, user.password_hash):
                 return None
                 
-            return user
+            return UserResponse.model_validate(user)
 
     def get_all_users(self) -> Optional[UserListResponse]:
         """

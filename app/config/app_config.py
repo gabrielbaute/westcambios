@@ -11,7 +11,7 @@ class Config:
     APP_VERSION: str = "0.1.0"
 
     # Paths
-    APP_PATH: Path = Path(__file__).resolve().parent.parent
+    APP_PATH: Path = Path(__file__).resolve().parent.parent.parent
     LOGS_PATH: Path = APP_PATH / "logs"
     INSTANCE_PATH: Path = APP_PATH / "instance"
     STATIC_PATH: Path = APP_PATH / "static"
