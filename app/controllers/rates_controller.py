@@ -2,7 +2,7 @@
 Rates exchange controller
 """
 import logging
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from app.schemas import RateCreate, RateResponse, RateUpdate, RateListResponse
@@ -74,6 +74,8 @@ class RateController(BaseController):
             RateListResponse: List of rates within the specified time range.
         """
         try:
+            start_date = datetime.combine(start_date, datetime.min.time())
+            end_date = datetime.combine(end_date, datetime.max.time())
             rates = self.session.query(RatesDatabaseModel).filter(
                 RatesDatabaseModel.timestamp >= start_date,
                 RatesDatabaseModel.timestamp <= end_date
