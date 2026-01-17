@@ -33,7 +33,8 @@ class UserController(BaseController):
         """
         try:
             new_user = UsersDatabaseModel(**user.model_dump())
-            self._commit_or_rollback(new_user)
+            if not self._commit_or_rollback(new_user):
+                return None
             self.logger.info(f"Successfully created new user record: {new_user}")
             self.session.refresh(new_user)
             return UserResponse.model_validate(new_user)
@@ -74,7 +75,7 @@ class UserController(BaseController):
             Optional[UserResponse]: User record retrieved.
         """
         try:
-            user = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.email == email).first()
+            user = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.email == email).one_or_none()
             if user:
                 self.logger.info(f"Successfully retrieved user record by email: {user}")
                 return UserResponse.model_validate(user)
@@ -135,7 +136,7 @@ class UserController(BaseController):
             self.logger.error(f"Error retrieving users within time range: {e}")
             return UserListResponse(count=0, users=[])
 
-    def get_all_users(self) -> Optional[UserListResponse]:
+    def get_all_users(self) -> UserListResponse:
         """
         Retrieves a list of all users from the database.
 
@@ -153,7 +154,7 @@ class UserController(BaseController):
                 return list_response
         except Exception as e:
             self.logger.error(f"Error retrieving all users: {e}")
-            return None
+            return UserListResponse(count=0, users=[])
     
     def update_user(self, user_id: int, user: UserUpdate) -> Optional[UserResponse]:
         """
