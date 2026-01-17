@@ -1,7 +1,8 @@
 """
 Module for defining API routes related to user authentication.
 """
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.enums import UserRole
 from app.services.user_service import UserService
@@ -11,13 +12,20 @@ from app.schemas import UserLogin, Token, UserCreate, UserResponse
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/login", response_model=Token)
-def login_for_access_token(login_data: UserLogin):
+def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     """
-    Authenticate user and return a JWT token.
+    Authenticate user via Swagger Form or JSON and return a JWT token.
     """
     user_service = UserService()
     try:
-        user = user_service.authenticate_user(login_data)
+        # OAuth2PasswordRequestForm usa 'username' para el campo de login
+        # En tu caso, ese campo es el email.
+        login_credentials = UserLogin(
+            email=form_data.username, 
+            password=form_data.password
+        )
+        
+        user = user_service.authenticate_user(login_credentials)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
