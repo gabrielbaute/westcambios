@@ -8,7 +8,7 @@ load_dotenv()
 class Config:
     # App info
     APP_NAME: str = "WestCambios"
-    APP_VERSIOM: str = "0.1.0"
+    APP_VERSION: str = "0.1.0"
 
     # Paths
     APP_PATH: Path = Path(__file__).resolve().parent.parent
@@ -26,6 +26,7 @@ class Config:
     API_ALLOW_ORIGINS: list = ["*"]
     API_ALLOW_METHODS: list = ["*"]
     API_ALLOW_HEADERS: list = ["*"]
+    API_ALLOW_CREDENTIALS: bool = True
     API_DEBUG: bool = True
 
     # Encryption
