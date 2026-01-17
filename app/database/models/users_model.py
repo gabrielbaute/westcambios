@@ -21,7 +21,7 @@ class UsersDatabaseModel(Base):
     def __str__(self):
         return f"{self.username} ({self.role})"
     
-    def __dict__(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "email": self.email,

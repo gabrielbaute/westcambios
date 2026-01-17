@@ -18,7 +18,7 @@ class RatesDatabaseModel(Base):
     def __str__(self):
         return f"{self.from_currency} to {self.to_currency}: {self.rate}"
     
-    def __dict__(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "from_currency": self.from_currency,
