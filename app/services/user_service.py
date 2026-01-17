@@ -174,8 +174,6 @@ class UserService:
             UserListResponse: List of user records within the specified date range.
         """
         return self.controller.get_users_register_by_time_range(start_date, end_date)
-
-
     
     def update_user_data(self, user_id: int, user_data: UserUpdate) -> Optional[UserResponse]:
         """
