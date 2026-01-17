@@ -5,8 +5,9 @@ import logging
 from typing import Optional
 from datetime import date, datetime, timedelta
 
-from app.controllers import UserController
 from app.schemas import UserCreate, UserResponse, UserUpdate, UserListResponse
+from app.services.security_service import SecurityService
+from app.controllers import UserController
 from app.enums import UserRole
 
 class UserService:
@@ -66,6 +67,8 @@ class UserService:
         self.logger.debug(f"Creating user: {user_data}")
         if self._validate_email_exists(user_data.email):
             return None
+        user_data.password_hash = SecurityService.get_password_hash(user_data.password_hash)
+        user_data.created_at = datetime.now()
         return self.controller.register_user(user_data)
     
     def get_user_by_id(self, user_id: int) -> Optional[UserResponse]:
