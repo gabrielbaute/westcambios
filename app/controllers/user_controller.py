@@ -63,6 +63,51 @@ class UserController(BaseController):
             self.logger.error(f"Error retrieving user record: {e}")
             return None
     
+    def get_user_by_email(self, email: str) -> Optional[UserResponse]:
+        """
+        Retrieves a user record by its email from the database.
+
+        Args:
+            email(str): Email
+        
+        Returns:
+            Optional[UserResponse]: User record retrieved.
+        """
+        try:
+            user = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.email == email).first()
+            if user:
+                self.logger.info(f"Successfully retrieved user record by email: {user}")
+                return UserResponse.model_validate(user)
+            else:
+                self.logger.warning(f"User record with email {email} not found.")
+                return None
+        except Exception as e:
+            self.logger.error(f"Error retrieving user record by email: {e}")
+            return None
+
+    def get_user_by_role(self, user_role: UserRole) -> UserListResponse:
+        """
+        Retrieves a list of users with a specific role from the database.
+
+        Args:
+            user_role(UserRole): Role of the users to be retrieved.
+
+        Returns:
+            UserListResponse: List of users with the specified role.
+        """
+        try:
+            users_response = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.role == user_role).all()
+            if users_response:
+                list_response = UserListResponse(
+                    count=len(users_response), 
+                    users=[UserResponse.model_validate(user) for user in users_response]
+                    )
+                self.logger.info(f"Successfully retrieved users with role {user_role}: {list_response.count} users found.")
+                return list_response
+        except Exception as e:
+            self.logger.error(f"Error retrieving users with role {user_role}: {e}")
+            return UserListResponse(count=0, users=[])
+
     def get_users_register_by_time_range(self, start_date: date, end_date: date) -> UserListResponse:
         """
         Retrieves a list of users registered within a specified time range from the database.
@@ -89,30 +134,7 @@ class UserController(BaseController):
         except Exception as e:
             self.logger.error(f"Error retrieving users within time range: {e}")
             return UserListResponse(count=0, users=[])
-    
-    def get_user_by_role(self, user_role: UserRole) -> Optional[UserListResponse]:
-        """
-        Retrieves a list of users with a specific role from the database.
 
-        Args:
-            user_role(UserRole): Role of the users to be retrieved.
-
-        Returns:
-            UserListResponse: List of users with the specified role.
-        """
-        try:
-            users_response = self.session.query(UsersDatabaseModel).filter(UsersDatabaseModel.role == user_role).all()
-            if users_response:
-                list_response = UserListResponse(
-                    count=len(users_response), 
-                    users=[UserResponse.model_validate(user) for user in users_response]
-                    )
-                self.logger.info(f"Successfully retrieved users with role {user_role}: {list_response.count} users found.")
-                return list_response
-        except Exception as e:
-            self.logger.error(f"Error retrieving users with role {user_role}: {e}")
-            return None
-        
     def get_all_users(self) -> Optional[UserListResponse]:
         """
         Retrieves a list of all users from the database.
