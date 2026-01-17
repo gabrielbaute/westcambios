@@ -35,6 +35,8 @@ class RateService:
         Returns:
             RateResponse: The registered rate record.
         """
+        if not rate_data.timestamp:
+            rate_data.timestamp = datetime.now()
         self.logger.debug(f"Creating rate: {rate_data}")
         return self.controller.register_rate(rate_data)
     
