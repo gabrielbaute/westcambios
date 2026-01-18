@@ -13,5 +13,5 @@ tag_scope = "global"
     'version = "{version}"'
 ]
 "app/config/app_config.py" = [
-    'APP_VERSION = "{version}"'
+    '__version__ = "{version}"'
 ]

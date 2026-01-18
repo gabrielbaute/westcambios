@@ -4,11 +4,12 @@ from typing import Dict
 from dotenv import load_dotenv
 
 load_dotenv()
+__version__ = "0.0.0"
 
 class Config:
     # App info
     APP_NAME: str = "WestCambios"
-    APP_VERSION: str = "0.1.0"
+    APP_VERSION: str = __version__
 
     # Paths
     APP_PATH: Path = Path(__file__).resolve().parent.parent.parent
