@@ -1,0 +1,133 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block content %}
+<div class="box">
+    <h1 class="title">Panel de Control</h1>
+    
+    <!-- Tabs -->
+    <div class="tabs is-boxed">
+        <ul>
+            <li class="is-active" data-tab="users-tab">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-users"></i></span>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li data-tab="rates-tab">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-chart-line"></i></span>
+                    <span>Tasas de Cambio</span>
+                </a>
+            </li>
+            <li data-tab="add-user-tab">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-user-plus"></i></span>
+                    <span>Registrar Usuario</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Pestaña para visualizar usuarios -->
+    <div id="tab-content">
+        <div id="users-tab" class="tab-pane">
+            <h2 class="subtitle">Gestión de Usuarios</h2>
+            <table class="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-body">
+                    </tbody>
+            </table>
+        </div>
+        
+        <!-- Pestaña para visualizar tasas de cambio -->
+        <div id="rates-tab" class="tab-pane is-hidden">
+            <div class="is-flex is-justify-content-between is-align-items-center mb-4">
+                <h2 class="subtitle mb-0">Historial de Tasas de Cambio</h2>
+            </div>
+            <button class="button is-primary is-small" onclick="showRateModal()">
+                <span class="icon"><i class="fas fa-plus"></i></span>
+                <span>Nueva Tasa</span>
+            </button>
+            
+            <table class="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Origen</th>
+                        <th>Destino</th>
+                        <th>Tasa (Rate)</th>
+                        <th>Fecha y Hora</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="rates-table-body">
+                    </tbody>
+            </table>
+        </div>
+
+        
+        <!-- Pestaña para visualizar usuarios -->
+        <div id="add-user-tab" class="tab-pane is-hidden">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <div class="box">
+                        <h2 class="subtitle">Crear Nuevo Usuario Manualmente</h2>
+                        <form id="add-user-form" onsubmit="registerUser(event)">
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <input name="email" class="input" type="email" required>
+                            </div>
+                            <div class="field">
+                                <label class="label">Username</label>
+                                <input name="username" class="input" type="text" required>
+                            </div>
+                            <div class="field">
+                                <label class="label">Contraseña Temporal</label>
+                                <input name="password_hash" class="input" type="password" required>
+                            </div>
+                            <div class="field">
+                                <label class="label">Rol de Usuario</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="role">
+                                            <option value="CLIENT">Cliente</option>
+                                            <option value="ADMIN">Administrador</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="button is-primary is-fullwidth">Crear Usuario</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="box">
+    </div>
+
+{% include "partials/_rate_modal.html" %}
+{% include "partials/_edit_user_modal.html" %}
+{% include "partials/_edit_rate_modal.html" %}
+{% include "partials/_messages.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='/js/dashboard.js') }}"></script>
+{% endblock %}
