@@ -1,15 +1,13 @@
 services:
-  westcambios-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: westcambios_api
+  westcambios:
+    image: ghcr.io/gabrielbaute/westcambios:latest  # Corregido: image en lugar de img
+    container_name: westcambios
     ports:
       - "8000:8000"
     volumes:
-      - ./instance:/app/instance  # Persistencia de SQLite (carpeta instance)
-      - ./logs:/app/logs          # Persistencia de logs
-      - ./uploads:/app/uploads    # Futuros archivos
+      - ./instance:/app/instance
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
     env_file:
       - .env
     restart: unless-stopped
@@ -18,3 +16,4 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 10s  # Le damos 10 segundos para inicializar la DB y semillas
