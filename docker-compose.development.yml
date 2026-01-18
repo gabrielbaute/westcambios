@@ -1,0 +1,20 @@
+services:
+  westcambios-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: westcambios_dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./instance:/app/instance  # Persistencia de SQLite (carpeta instance)
+      - ./logs:/app/logs          # Persistencia de logs
+      - ./uploads:/app/uploads    # Futuros archivos
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
