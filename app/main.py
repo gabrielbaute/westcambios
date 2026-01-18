@@ -24,6 +24,9 @@ logging.basicConfig(
 app = create_app(config=config)
 init_db(instance_path=Config.INSTANCE_PATH)
 
+create_admin()
+create_rates()
+
 def run_server():
     """
     Run the FastAPI server.
@@ -38,8 +41,7 @@ def run_server():
 
 if __name__ == "__main__":
     # Populate database
-    create_admin()
-    create_rates()
+    
 
     # Run server
     run_server()
