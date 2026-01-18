@@ -1,6 +1,8 @@
 services:
   westcambios-api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: westcambios_api
     ports:
       - "8000:8000"
