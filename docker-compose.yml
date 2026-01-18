@@ -7,8 +7,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data  # Persistencia para la DB SQLite
-      - ./logs:/app/logs  # Persistencia para logs
+      - ./instance:/app/instance  # Persistencia de SQLite (carpeta instance)
+      - ./logs:/app/logs          # Persistencia de logs
+      - ./uploads:/app/uploads    # Futuros archivos
     env_file:
       - .env
     restart: unless-stopped
