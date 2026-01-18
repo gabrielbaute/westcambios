@@ -1,0 +1,38 @@
+"""
+Module for UI routes using Jinja2
+"""
+from datetime import datetime
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from app.config import Config
+
+# Instanciamos el router y las plantillas
+router = APIRouter(tags=["UI"])
+templates = Jinja2Templates(directory=str(Config.UI_DIR))
+
+# --- CONTEXT PROCESSOR ---
+def global_context(request: Request):
+    """
+    Función que define las variables globales.
+    """
+    return {
+        "app_name": Config.APP_NAME,
+        "version": Config.APP_VERSION,
+        "current_date": datetime.now().strftime("%Y-%m-%d")
+    }
+
+# En lugar de un decorador @, añadimos la función a la lista de procesadores
+templates.context_processors.append(global_context)
+
+# --- ROUTES ---
+
+@router.get("/", response_class=HTMLResponse)
+async def login_page(request: Request):
+    """Serves the main login page."""
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@router.get("/admin-dashboard", response_class=HTMLResponse)
+async def admin_page(request: Request):
+    """Serves the administration dashboard."""
+    return templates.TemplateResponse("admin.html", {"request": request})

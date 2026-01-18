@@ -1,15 +1,13 @@
 """
 FastAPI Application Factory module
 """
-from pathlib import Path
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import Config
 from app.api.include_routes import include_routes
+from app.api.routes.ui_routes import router as ui_router
 
 def create_app(config: Config) -> FastAPI:
     """
@@ -26,6 +24,10 @@ def create_app(config: Config) -> FastAPI:
         redoc_url="/redoc",
         openapi_url="/openapi.json",
     )
+                                
+    # Mount static files (only if directory exists)
+    if config.STATIC_DIR.exists():
+        app.mount("/static", StaticFiles(directory=str(config.STATIC_DIR)), name="static")
 
     app.add_middleware(
         CORSMiddleware,
@@ -36,5 +38,6 @@ def create_app(config: Config) -> FastAPI:
     )
 
     include_routes(app, prefix="/api/v1")
+    app.include_router(ui_router)
 
     return app

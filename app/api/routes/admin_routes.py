@@ -103,6 +103,14 @@ def get_users_register_last_6_months():
     finally:
         service.controller.close_session()
 
+@router.get("/all_users", response_model=UserListResponse)
+def get_all_users():
+    service = UserService()
+    try:
+        return service.get_all_users()
+    finally:
+        service.controller.close_session()
+
 @router.get("/users_register_last_year", response_model=UserListResponse)
 def get_users_register_last_year():
     service = UserService()
