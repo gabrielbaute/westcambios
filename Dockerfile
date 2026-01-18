@@ -42,7 +42,7 @@ COPY --from=builder /install /usr/local
 
 # Copiar el código de la aplicación
 COPY ./app ./app
-COPY ./static ./static
+#COPY ./static ./static
 
 # Asegurar permisos correctos para el usuario
 RUN chown -R westuser:westgroup /app
