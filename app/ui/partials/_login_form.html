@@ -1,0 +1,41 @@
+<div class="column is-4 is-offset-4">
+    <div class="card">
+        <header class="card-header has-background-light">
+            <p class="card-header-title">
+                <span class="icon mr-2"><i class="fas fa-lock"></i></span>
+                Acceso al Sistema
+            </p>
+        </header>
+        <div class="card-content">
+            <div id="notification-area"></div>
+
+            <form onsubmit="login(event)">
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control has-icons-left">
+                        <input id="email" class="input" type="email" placeholder="admin@example.com" required>
+                        <span class="icon is-small is-left">
+                            <i>@</i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Contraseña</label>
+                    <div class="control has-icons-left">
+                        <input id="password" class="input" type="password" placeholder="••••••••" required>
+                        <span class="icon is-small is-left">
+                            <i>*</i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field mt-5">
+                    <button id="login-button" type="submit" class="button is-primary is-fullwidth">
+                        Entrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

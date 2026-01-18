@@ -1,0 +1,14 @@
+<div id="notification-container">
+    </div>
+
+<script>
+function showNotification(message, type = 'is-danger') {
+    const container = document.getElementById('notification-container');
+    container.innerHTML = `
+        <div class="notification ${type}">
+            <button class="delete" onclick="this.parentElement.remove()"></button>
+            ${message}
+        </div>
+    `;
+}
+</script>

@@ -1,0 +1,28 @@
+<div id="edit-rate-modal" class="modal">
+    <div class="modal-background" onclick="closeEditRateModal()"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Editar Tasa de Cambio</p>
+            <button class="delete" aria-label="close" onclick="closeEditRateModal()"></button>
+        </header>
+        <form id="edit-rate-form" onsubmit="updateRate(event)">
+            <input type="hidden" id="edit-rate-id">
+            <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Valor de la Tasa</label>
+                    <div class="control has-icons-left">
+                        <input id="edit-rate-value" class="input" type="number" step="0.01" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-money-bill"></i>
+                        </span>
+                    </div>
+                </div>
+                <p class="help">Nota: Por integridad histórica, solo se permite editar el valor numérico.</p>
+            </section>
+            <footer class="modal-card-foot is-justify-content-flex-end">
+                <button type="button" class="button" onclick="closeEditRateModal()">Cancelar</button>
+                <button type="submit" class="button is-success">Actualizar Tasa</button>
+            </footer>
+        </form>
+    </div>
+</div>

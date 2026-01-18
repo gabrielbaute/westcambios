@@ -1,0 +1,54 @@
+<div id="rate-modal" class="modal">
+    <div class="modal-background" onclick="closeRateModal()"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Registrar Nueva Tasa</p>
+            <button class="delete" aria-label="close" onclick="closeRateModal()"></button>
+        </header>
+        <form id="rate-form" onsubmit="saveRate(event)">
+            <section class="modal-card-body">
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Desde (From)</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="from_currency" required>
+                                        <option value="BRL">BRL (Real)</option>
+                                        <option value="USD">USD (Dólar)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Hacia (To)</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="to_currency" required>
+                                        <option value="VES" selected>VES (Bolívar)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Valor de la Tasa</label>
+                    <div class="control has-icons-left">
+                        <input name="rate" class="input" type="number" step="0.01" placeholder="95.50" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-money-bill"></i>
+                        </span>
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot is-justify-content-flex-end">
+                <button type="button" class="button" onclick="closeRateModal()">Cancelar</button>
+                <button type="submit" id="save-rate-btn" class="button is-primary">Guardar Tasa</button>
+            </footer>
+        </form>
+    </div>
+</div>
