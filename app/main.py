@@ -5,6 +5,8 @@ import os
 from app.config import Config
 from app.api.app_factory import create_app
 from app.database.db_config import init_db
+from app.seeds import create_admin, create_rates
+
 
 Config.create_dirs()
 config = Config()
@@ -30,9 +32,14 @@ def run_server():
         "app.main:app",
         host=Config.API_HOST,
         port=Config.API_PORT,
-        log_level="debug",
-        reload=True,
+        log_level="info",
+        reload=False,
     )
 
 if __name__ == "__main__":
+    # Populate database
+    create_admin()
+    create_rates()
+
+    # Run server
     run_server()

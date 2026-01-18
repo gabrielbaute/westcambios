@@ -8,6 +8,11 @@ from app.enums import CurrencyEnum
 
 def create_rates():
     rate_service = RateService()
+    
+    # Verifying rates register already exists
+    if rate_service.get_all_rates():
+            return
+    
     rate_in = RateCreate(
         from_currency=CurrencyEnum.BRL,
         to_currency=CurrencyEnum.VES,
@@ -30,6 +35,3 @@ def create_rates():
     for rate in rates:
         rate_service.register_rate(rate)
     rate_service.dispose()
-
-if __name__ == "__main__":
-    create_rates()

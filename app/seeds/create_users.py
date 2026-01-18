@@ -24,6 +24,3 @@ def create_users():
     user_service.register_user(user_admin)
     user_service.register_user(user_client)
     user_service.dispose()
-
-if __name__ == "__main__":
-    create_users()
