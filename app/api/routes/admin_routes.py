@@ -42,10 +42,13 @@ def update_user(user_id: int, user_in: UserUpdate):
 
 @router.delete("/delete_user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int):
+    """Deletes a user from the system."""
     service = UserService()
     try:
-        if not service.delete_user(user_id):
+        success = service.controller.delete_user(user_id)
+        if not success:
             raise HTTPException(status_code=404, detail="User not found")
+        return None
     finally:
         service.controller.close_session()
 
