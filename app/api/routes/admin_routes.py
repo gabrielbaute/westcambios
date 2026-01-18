@@ -9,7 +9,7 @@ from app.api.dependencies import get_current_admin
 from app.services.user_service import UserService
 from app.services.rates_service import RateService
 from app.schemas import (
-    UserCreate, UserUpdate, UserResponse,
+    UserCreate, UserUpdate, UserResponse, UserListResponse,
     RateCreate, RateUpdate, RateResponse
 )
 
@@ -79,7 +79,7 @@ def update_user_role(user_id: int, user_role: str):
 
 # --- VISUALIZAR USUARIOS POR PERÍODOS ---
 
-@router.get("/users_register_last_month", response_model=List[UserResponse])
+@router.get("/users_register_last_month", response_model=UserListResponse)
 def get_users_register_last_month():
     service = UserService()
     try:
@@ -87,7 +87,7 @@ def get_users_register_last_month():
     finally:
         service.controller.close_session()
 
-@router.get("/users_register_last_3_months", response_model=List[UserResponse])
+@router.get("/users_register_last_3_months", response_model=UserListResponse)
 def get_users_register_last_3_months():
     service = UserService()
     try:
@@ -95,7 +95,7 @@ def get_users_register_last_3_months():
     finally:
         service.controller.close_session()
 
-@router.get("/users_register_last_6_months", response_model=List[UserResponse])
+@router.get("/users_register_last_6_months", response_model=UserListResponse)
 def get_users_register_last_6_months():
     service = UserService()
     try:
@@ -103,7 +103,7 @@ def get_users_register_last_6_months():
     finally:
         service.controller.close_session()
 
-@router.get("/users_register_last_year", response_model=List[UserResponse])
+@router.get("/users_register_last_year", response_model=UserListResponse)
 def get_users_register_last_year():
     service = UserService()
     try:
@@ -111,7 +111,7 @@ def get_users_register_last_year():
     finally:
         service.controller.close_session()
 
-@router.get("/users_by_custom_range", response_model=List[UserResponse])
+@router.get("/users_by_custom_range", response_model=UserListResponse)
 def get_users_by_custom_range(start_date: str, end_date: str):
     service = UserService()
     try:

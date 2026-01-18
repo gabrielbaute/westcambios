@@ -2,7 +2,7 @@
 User controller
 """
 import logging
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from app.schemas import UserCreate, UserResponse, UserUpdate, UserListResponse
@@ -121,6 +121,8 @@ class UserController(BaseController):
             UserListResponse: List of users registered within the specified time range.
         """
         try:
+            start_date = datetime.combine(start_date, datetime.min.time())
+            end_date = datetime.combine(end_date, datetime.max.time())
             users = self.session.query(UsersDatabaseModel).filter(
                 UsersDatabaseModel.created_at >= start_date,
                 UsersDatabaseModel.created_at <= end_date
