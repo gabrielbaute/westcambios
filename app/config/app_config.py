@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,7 +14,7 @@ class Config:
     APP_PATH: Path = Path(__file__).resolve().parent.parent.parent
     LOGS_PATH: Path = APP_PATH / "logs"
     INSTANCE_PATH: Path = APP_PATH / "instance"
-    STATIC_PATH: Path = APP_PATH / "static"
+    UPLOAD_PATH: Path = APP_PATH / "uploads"
 
     # Database
     DATABASE_URL: str = f"sqlite:///{os.path.join(INSTANCE_PATH, 'westcambios.db')}"
@@ -37,6 +37,11 @@ class Config:
     ACCESS_TOKEN_EXPIRE_MINUTES: int = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30)
     REFRESH_TOKEN_EXPIRE_MINUTES: int = os.getenv("REFRESH_TOKEN_EXPIRE_MINUTES", 60 * 24 * 7)
 
+    # UI
+    UI_DIR = Path(__file__).parent.parent / "ui"
+    STATIC_DIR = UI_DIR / "static"
+    INDEX_HTML = UI_DIR / "index.html"
+
     @classmethod
     def create_dirs(cls) -> bool:
         """
@@ -48,7 +53,7 @@ class Config:
         try: 
             cls.LOGS_PATH.mkdir(parents=True, exist_ok=True)
             cls.INSTANCE_PATH.mkdir(parents=True, exist_ok=True)
-            cls.STATIC_PATH.mkdir(parents=True, exist_ok=True)
+            cls.UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
             return True
         except Exception as e:
             print(e)
@@ -66,5 +71,5 @@ class Config:
             "app_path": cls.APP_PATH,
             "logs_path": cls.LOGS_PATH,
             "instance_path": cls.INSTANCE_PATH,
-            "static_path": cls.STATIC_PATH
+            "static_path": cls.UPLOAD_PATH
         }
