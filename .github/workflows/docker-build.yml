@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     tags:
-      - 'v*' # Sigue la convención de semver de tu .bumpver.toml
+      - '*'
 
 env:
   REGISTRY: ghcr.io
