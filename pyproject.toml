@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "westcambios"
-version = "0.1.0"
+version = "0.1.1"
 description = "Consulta la tasa de cambio de Brasil a Venezuela para enviar tus remesas"
 authors = ["Gabriel Baute <gabrielbaute@gmail.com>"]
 license = "MIT"
