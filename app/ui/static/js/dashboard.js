@@ -108,7 +108,7 @@ async function loadRates() {
         const tableBody = document.getElementById('rates-table-body');
         
         // Accedemos a la lista 'rates'
-        const ratesList = data.rates;
+        const ratesList = data.rates.sort((a, b) => b.id - a.id);
 
         if (ratesList && ratesList.length > 0) {
             tableBody.innerHTML = ratesList.map(rate => {
