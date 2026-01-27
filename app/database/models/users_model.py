@@ -13,7 +13,7 @@ class UsersDatabaseModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String, unique=False, nullable=False)
     password_hash: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     role: Mapped[UserRole] = mapped_column(Enum(UserRole), nullable=False)

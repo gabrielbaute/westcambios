@@ -66,6 +66,7 @@ class UserService:
         """
         self.logger.debug(f"Creating user: {user_data}")
         if self._validate_email_exists(user_data.email):
+            self.logger.warning(f"Exiting process.")
             return None
         user_data.password_hash = SecurityService.get_password_hash(user_data.password_hash)
         user_data.created_at = datetime.now()
