@@ -1,34 +1,29 @@
-from sqlalchemy import Column, Integer, DateTime, Enum, String, Boolean
+from datetime import datetime
+from typing import List, Optional
+from sqlalchemy import Integer, DateTime, Enum, String, Boolean
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.database.db_base import Base
 from app.enums import UserRole
+from app.database.db_base import Base
+from app.database.models.payments_model import PaymentsDatabaseModel
+
 
 class UsersDatabaseModel(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String, unique=True, nullable=False)
-    username = Column(String, unique=True, nullable=False)
-    password_hash = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True)
-    role = Column(Enum(UserRole), nullable=False)
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    password_hash: Mapped[str] = mapped_column(String, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    role: Mapped[UserRole] = mapped_column(Enum(UserRole), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
-    def __repr__(self):
+    payments: Mapped[List["PaymentsDatabaseModel"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan" # Opcional: si borras usuario, borra sus pagos
+    )
+
+    def __repr__(self) -> str:
         return f"<User(username={self.username}, role={self.role})>"
-    
-    def __str__(self):
-        return f"{self.username} ({self.role})"
-    
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "username": self.username,
-            "password_hash": self.password_hash,
-            "is_active": self.is_active,
-            "role": self.role,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
-        }
