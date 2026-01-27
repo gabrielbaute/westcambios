@@ -1,5 +1,5 @@
-from typing import Optional, List
 from datetime import datetime
+from typing import Optional, List
 from pydantic import BaseModel, ConfigDict
 
 from app.enums import CurrencyEnum
@@ -65,7 +65,7 @@ class RateListResponse(BaseModel):
                         },
                         {
                             "id": 2,
-                            "from_curreny": "BRL",
+                            "from_curreny": "USD",
                             "to_currency": "VES",
                             "rate": 94.90,
                             "timestamp": "2023-10-02T12:00:00Z"
