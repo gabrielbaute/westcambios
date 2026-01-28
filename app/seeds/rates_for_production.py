@@ -15,6 +15,18 @@ def create_rates_production():
     
     rates = [
             RateCreate(
+                from_currency=CurrencyEnum.USDT,
+                to_currency=CurrencyEnum.BRL,
+                rate=5.46,
+                timestamp=datetime.now()
+            ),
+            RateCreate(
+                from_currency=CurrencyEnum.USD,
+                to_currency=CurrencyEnum.VES,
+                rate=361.49,
+                timestamp=datetime.now()
+            ),
+            RateCreate(
                 from_currency=CurrencyEnum.BRL,
                 to_currency=CurrencyEnum.VES,
                 rate=92.0,
