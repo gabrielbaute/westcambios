@@ -61,6 +61,34 @@ class RateController(BaseController):
         except Exception as e:
             self.logger.error(f"Error retrieving rate record: {e}")
             return None
+    
+    def get_limit_days_rates_by_pair_currency(self, from_currency: str, to_currency: str, limit_days: int) -> Optional[RateListResponse]:
+        """
+        Retrieves the last "limit_days" records of a rate by currency pair from the database.
+
+        Args:
+            from_currency(str): Source currency code.
+            to_currency(str): Target currency code.
+            limit_days(int): Number of days to retrieve.
+
+        Returns:
+            Optional[RateResponse]: Rate record retrieved.
+        """
+        try:
+            rates = self.session.query(RatesDatabaseModel).filter(
+                RatesDatabaseModel.from_currency == from_currency,
+                RatesDatabaseModel.to_currency == to_currency
+            ).order_by(RatesDatabaseModel.timestamp.desc()).limit(limit_days).all()
+            if rates:
+                list_response = RateListResponse(
+                    count=len(rates), 
+                    rates=[RateResponse.model_validate(rate) for rate in rates]
+                    )
+                self.logger.info(f"Successfully retrieved rates for {from_currency} to {to_currency}: {list_response.count} records found.")
+                return list_response
+        except Exception as e:
+            self.logger.error(f"Error retrieving rates for {from_currency} to {to_currency}: {e}")
+            return None
 
     def get_rates_by_time_range(self, start_date: date, end_date: date) -> RateListResponse:
         """
