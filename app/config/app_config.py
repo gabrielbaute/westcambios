@@ -43,6 +43,9 @@ class Config:
     STATIC_DIR = UI_DIR / "static"
     INDEX_HTML = UI_DIR / "index.html"
 
+    # Log level
+    LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
+
     @classmethod
     def create_dirs(cls) -> bool:
         """

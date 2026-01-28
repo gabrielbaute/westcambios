@@ -13,7 +13,7 @@ Config.create_dirs()
 config = Config()
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=config.LOG_LEVEL,
     format="%(asctime)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
@@ -25,8 +25,9 @@ logging.basicConfig(
 app = create_app(config=config)
 init_db(instance_path=Config.INSTANCE_PATH)
 
-create_admin()
-create_rates()
+if Config.LOG_LEVEL.upper() == "DEBUG":
+    create_admin()
+    create_rates()
 
 @app.on_event("startup")
 def start_scheduler():
