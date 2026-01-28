@@ -4,7 +4,7 @@ from typing import Dict
 from dotenv import load_dotenv
 
 load_dotenv()
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 class Config:
     # App info
