@@ -5,6 +5,7 @@ class CurrencyEnum(StrEnum):
     VES = "VES"
     BRL = "BRL"
     USD = "USD"
+    USDT = "USDT"
 
     def __str__(self) -> str:
         return self.value
