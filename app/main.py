@@ -6,6 +6,7 @@ from app.config import Config
 from app.api.app_factory import create_app
 from app.database.db_config import init_db
 from app.seeds import create_admin, create_rates
+from app.services import SchedulerService
 
 
 Config.create_dirs()
@@ -27,6 +28,15 @@ init_db(instance_path=Config.INSTANCE_PATH)
 create_admin()
 create_rates()
 
+@app.on_event("startup")
+def start_scheduler():
+    """
+    Start the scheduler.
+    """
+    scheduler = SchedulerService()
+    scheduler.start_scheduler()
+
+
 def run_server():
     """
     Run the FastAPI server.
@@ -40,8 +50,4 @@ def run_server():
     )
 
 if __name__ == "__main__":
-    # Populate database
-    
-
-    # Run server
     run_server()
