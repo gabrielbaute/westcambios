@@ -29,8 +29,8 @@ class SchedulerService:
             pair = self.binance.get_usdt_ves_pair()
             self.logger.info(f"Saving Binance rate: {pair.average_price} {pair.fiat}/{pair.asset}")
             rate = RateCreate(
-                from_currency=CurrencyEnum.VES,
-                to_currency=CurrencyEnum.USDT,
+                from_currency=CurrencyEnum.USDT,
+                to_currency=CurrencyEnum.VES,
                 rate=pair.average_price,
                 timestamp=datetime.now()   
             )
