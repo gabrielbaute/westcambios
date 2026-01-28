@@ -1,9 +1,12 @@
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
+APScheduler==3.11.2
 bcrypt==3.1.7
 bumpver==2025.1131
+certifi==2026.1.4
 cffi==2.0.0
+charset-normalizer==3.4.4
 click==8.3.1
 colorama==0.4.6
 dnspython==2.8.0
@@ -29,6 +32,8 @@ pytest==9.0.2
 python-dotenv==1.2.1
 python-jose==3.5.0
 python-multipart==0.0.21
+pytz==2025.2
+requests==2.32.5
 rsa==4.9.1
 six==1.17.0
 SQLAlchemy==2.0.45
@@ -36,4 +41,7 @@ starlette==0.50.0
 toml==0.10.2
 typing-inspection==0.4.2
 typing_extensions==4.15.0
+tzdata==2025.3
+tzlocal==5.3.1
+urllib3==2.6.3
 uvicorn==0.40.0

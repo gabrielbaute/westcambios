@@ -13,6 +13,9 @@ fastapi = "^0.115.0"
 uvicorn = {extras = ["standard"], version = "^0.31.0"}
 jinja2 = "^3.1.0"
 python-multipart = "^0.0.12"
+requests = "^2.32.5"
+pytz = "^2025.2"
+APScheduler = "^3.11.2"
 
 # Data & Config
 pydantic = {extras = ["email"], version = "^2.10.0"}
@@ -22,7 +25,7 @@ sqlalchemy = "^2.0.0"
 # Security (Auth)
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-bcrypt = "4.0.1"  # Versión específica para evitar conflictos con passlib
+bcrypt = "4.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
